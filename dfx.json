@@ -1,0 +1,26 @@
+{
+  "canisters": {
+    "SocialTaskManager_backend": {
+      "main": "src/SocialTaskManager_backend/main.mo",
+      "type": "motoko"
+    },
+    "SocialTaskManager_frontend": {
+      "dependencies": [
+        "SocialTaskManager_backend"
+      ],
+      "source": [
+        "src/SocialTaskManager_frontend/dist"
+      ],
+      "type": "assets",
+      "workspace": "SocialTaskManager_frontend"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
