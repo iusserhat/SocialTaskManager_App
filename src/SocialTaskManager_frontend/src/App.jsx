@@ -1,30 +1,82 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+// Burada, import ismini "SocialTaskManager" olarak belirlediniz, bu nedenle bu ismi kullanmalısınız.
 import { SocialTaskManager_backend } from 'declarations/SocialTaskManager_backend';
 
-function App() {
-  const [greeting, setGreeting] = useState('');
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    const name = event.target.elements.name.value;
-    SocialTaskManager_backend.greet(name).then((greeting) => {
-      setGreeting(greeting);
-    });
-    return false;
-  }
+function App() {
+  const [tasks, setTasks] = useState([]);
+  const [newTaskDescription, setNewTaskDescription] = useState('');
+
+  const reward = "0.5 ICP token";
+
+  const fetchTasks = async () => {
+    try {
+      // Burada "SocialTaskManager" kullanıyoruz çünkü import bu şekilde yapıldı.
+      const loadedTasks = await SocialTaskManager.getTasks();
+      setTasks(loadedTasks);
+    } catch (error) {
+      console.error("Görevler yüklenirken bir hata oluştu:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTasks();
+  }, []);
+
+  const handleAddTask = async () => {
+    if (!newTaskDescription) return;
+    try {
+      // Yine, "SocialTaskManager" kullanıyoruz.
+      await SocialTaskManager.addTask(newTaskDescription, reward);
+      setNewTaskDescription('');
+      fetchTasks();
+    } catch (error) {
+      console.error("Görev eklenirken bir hata oluştu:", error);
+    }
+  };
+
+  const handleCompleteTask = async (id) => {
+    try {
+      // Ve burada da "SocialTaskManager".
+      await SocialTaskManager.completeTask(id);
+      fetchTasks();
+    } catch (error) {
+      console.error("Görev tamamlanırken bir hata oluştu:", error);
+    }
+  };
+
+  const handleClearCompleted = async () => {
+    try {
+      // Ve burada da "SocialTaskManager".
+      await SocialTaskManager.clearCompleted();
+      fetchTasks();
+    } catch (error) {
+      console.error("Tamamlanan görevler temizlenirken bir hata oluştu:", error);
+    }
+  };
 
   return (
-    <main>
-      <img src="/logo2.svg" alt="DFINITY logo" />
-      <br />
-      <br />
-      <form action="#" onSubmit={handleSubmit}>
-        <label htmlFor="name">Enter your name: &nbsp;</label>
-        <input id="name" alt="Name" type="text" />
-        <button type="submit">Click Me!</button>
-      </form>
-      <section id="greeting">{greeting}</section>
-    </main>
+    <div>
+      <h1>Social Task Manager</h1>
+      <input
+        type="text"
+        placeholder="Task Description"
+        value={newTaskDescription}
+        onChange={(e) => setNewTaskDescription(e.target.value)}
+      />
+      <button onClick={handleAddTask}>Add Task</button>
+      <button onClick={handleClearCompleted}>Clear Completed Tasks</button>
+      <ul>
+        {tasks.map((task, index) => (
+          <li key={index}>
+            {task.description}
+            {task.completed ? ` ✔ - Reward: ${task.reward}` : (
+              <button onClick={() => handleCompleteTask(task.id)}>Complete</button>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 

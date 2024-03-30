@@ -1,37 +1,64 @@
+/* Temel ayarlar */
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Arka planın ikiye bölünmüş olması */
 body {
-  font-family: sans-serif;
-  font-size: 1.5rem;
+  background: linear-gradient(to right, purple 50%, green 50%);
 }
 
-img {
-  max-width: 50vw;
-  max-height: 25vw;
-  display: block;
-  margin: auto;
+/* Ana konteyner stil ayarları */
+#app {
+  width: 50%;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
-form {
-  display: flex;
-  justify-content: center;
-  gap: 0.5em;
-  flex-flow: row wrap;
-  max-width: 40vw;
-  margin: auto;
-  align-items: baseline;
+/* Başlık stil ayarları */
+h1 {
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
 }
 
-button[type="submit"] {
-  padding: 5px 20px;
-  margin: 10px auto;
-  float: right;
+/* Giriş ve buton stil ayarları */
+input[type='text'], button {
+  border: none;
+  outline: none;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 25px;
+  box-shadow: 4px 4px 10px rgba(0,0,0,0.2);
+  transition: transform 0.2s ease-in-out;
 }
 
-#greeting {
-  margin: 10px auto;
-  padding: 10px 60px;
-  border: 1px solid #222;
+/* Giriş alanı stil ayarları */
+input[type='text'] {
+  width: calc(100% - 40px); /* Padding and border correction */
+  border: 2px solid black;
 }
 
-#greeting:empty {
-  display: none;
+/* Buton hover stil ayarları */
+button {
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  border: 2px solid black;
 }
+
+button:hover {
+  transform: scale(1.05);
+  background-color: darkgray;
+}
+
+/* Butonun 3D görünümü */
+button:active {
+  box-shadow: none;
+  transform: translateY(4px);
+}
+
