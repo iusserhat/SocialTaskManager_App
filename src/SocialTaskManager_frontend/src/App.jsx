@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-// Burada, import ismini "SocialTaskManager" olarak belirlediniz, bu nedenle bu ismi kullanmalısınız.
+
 import { SocialTaskManager_backend } from 'declarations/SocialTaskManager_backend';
 
 
@@ -11,7 +11,7 @@ function App() {
 
   const fetchTasks = async () => {
     try {
-      // Burada "SocialTaskManager" kullanıyoruz çünkü import bu şekilde yapıldı.
+      
       const loadedTasks = await SocialTaskManager.getTasks();
       setTasks(loadedTasks);
     } catch (error) {
@@ -37,8 +37,7 @@ function App() {
 
   const handleCompleteTask = async (id) => {
     try {
-      // Ve burada da "SocialTaskManager".
-      await SocialTaskManager.completeTask(id);
+      SocialTaskManager.completeTask(id);
       fetchTasks();
     } catch (error) {
       console.error("Görev tamamlanırken bir hata oluştu:", error);
@@ -47,8 +46,7 @@ function App() {
 
   const handleClearCompleted = async () => {
     try {
-      // Ve burada da "SocialTaskManager".
-      await SocialTaskManager.clearCompleted();
+       SocialTaskManager.clearCompleted();
       fetchTasks();
     } catch (error) {
       console.error("Tamamlanan görevler temizlenirken bir hata oluştu:", error);
